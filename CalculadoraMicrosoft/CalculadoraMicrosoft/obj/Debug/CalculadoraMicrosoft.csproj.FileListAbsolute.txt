@@ -1,0 +1,10 @@
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\bin\Debug\CalculadoraMicrosoft.exe.config
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\bin\Debug\CalculadoraMicrosoft.exe
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\bin\Debug\CalculadoraMicrosoft.pdb
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.csprojAssemblyReference.cache
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.Form1.resources
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.Properties.Resources.resources
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.csproj.GenerateResource.cache
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.csproj.CoreCompileInputs.cache
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.exe
+C:\Users\extacheca\Desktop\Escuela MS\c#\ejercicios\CalculadoraMicrosoft\CalculadoraMicrosoft\obj\Debug\CalculadoraMicrosoft.pdb
