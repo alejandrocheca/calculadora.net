@@ -1,0 +1,16 @@
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\bin\Debug\net7.0-windows\CalculadoraNet.exe
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\bin\Debug\net7.0-windows\CalculadoraNet.deps.json
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\bin\Debug\net7.0-windows\CalculadoraNet.runtimeconfig.json
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\bin\Debug\net7.0-windows\CalculadoraNet.dll
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\bin\Debug\net7.0-windows\CalculadoraNet.pdb
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.Form1.resources
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.csproj.GenerateResource.cache
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.AssemblyInfoInputs.cache
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.AssemblyInfo.cs
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.csproj.CoreCompileInputs.cache
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.dll
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\refint\CalculadoraNet.dll
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.pdb
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\CalculadoraNet.genruntimeconfig.cache
+C:\Users\Usuario\Desktop\calculadora.net\Calculadora net\CalculadoraNet\CalculadoraNet\obj\Debug\net7.0-windows\ref\CalculadoraNet.dll
