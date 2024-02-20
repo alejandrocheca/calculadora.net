@@ -5,6 +5,7 @@ namespace CalculadoraNet
 {
     public partial class Form1 : Form
     {
+        private double ansValue = double.NaN;
         public Form1()
         {
             InitializeComponent();
@@ -32,13 +33,23 @@ namespace CalculadoraNet
 
             // Asignar evento KeyPress al TextBox
             textBox1.KeyPress += TextBox1_KeyPress;
+
+            //Asignar otros botones
+            BtnAns.Click += BtnAns_Click;
         }
         private void BtnC_Click(object sender, EventArgs e)
         {
             // Lógica para el botón C (borrar)
             textBox1.Text = "";
         }
-
+        private void BtnAns_Click(object sender, EventArgs e)
+        {
+            if (!double.IsNaN(ansValue))
+            {
+                // Si ansValue tiene un valor válido, mostrarlo en textBox1.Text
+                textBox1.Text += "ANS";
+            }
+        }
         private void BtnNumber_Click(object sender, EventArgs e)
         {
             // Lógica para los botones de números
@@ -52,13 +63,16 @@ namespace CalculadoraNet
             Button btn = (Button)sender;
             textBox1.Text += " " + btn.Text + " ";
         }
+        
         private void BtnEqual_Click(object sender, EventArgs e)
         {
-            // Lógica para el botón igual
             try
             {
                 // Obtener la expresión desde textBox1.Text
                 string expression = textBox1.Text;
+
+                // Reemplazar "ANS" con el valor de ansValue en la expresión
+                expression = expression.Replace("ANS", ansValue.ToString());
 
                 // Utilizar la clase DataTable para evaluar la expresión matemática
                 DataTable table = new DataTable();
@@ -66,6 +80,12 @@ namespace CalculadoraNet
 
                 // Mostrar el resultado en textBox1.Text
                 textBox1.Text = result.ToString();
+
+                // Actualizar el valor de ansValue
+                if (double.TryParse(result.ToString(), out double parsedResult))
+                {
+                    ansValue = parsedResult;
+                }
             }
             catch (Exception ex)
             {
@@ -88,5 +108,6 @@ namespace CalculadoraNet
                 e.Handled = true; // Suprimir el carácter
             }
         }
+       
     }
 }
