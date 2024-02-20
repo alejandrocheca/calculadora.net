@@ -32,7 +32,8 @@ namespace CalculadoraNet
                 AnsValue = parsedResult;
             }
 
-            return $"{expression}\r\n\r\nResultado: {result}";
+            return $"{expression}\r\n\r\n {result}";
         }
+       
     }
 }

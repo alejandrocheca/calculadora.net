@@ -41,11 +41,11 @@ namespace CalculadoraNet
             BtnPar2.Click += BtnOperator_Click;
 
             // Asignar evento KeyPress al TextBox y al formulario
-            //richTextBox1.KeyPress += RichTextBox1_KeyPress;
             KeyPress += Form1_KeyPress;
 
             // Asignar otros botones
             BtnAns.Click += BtnAns_Click;
+            //BtnPorcentaje.Click += BtnPorcentaje_Click;
         }
 
         private void BtnC_Click(object sender, EventArgs e)
@@ -57,11 +57,9 @@ namespace CalculadoraNet
 
         private void BtnNumber_Click(object sender, EventArgs e)
         {
-            // Lógica para los botones de números
-            // Por ejemplo, agregar el número correspondiente al richTextBox1.Text
+
             if (resultadoMostrado)
             {
-                // Si el resultado está mostrado, comenzar una nueva operación
                 richTextBox1.Text = "";
                 resultadoMostrado = false;
             }
@@ -72,7 +70,6 @@ namespace CalculadoraNet
 
         private void BtnOperator_Click(object sender, EventArgs e)
         {
-            // Lógica para los botones de operadores (+, -, *, /)
             Button btn = (Button)sender;
             richTextBox1.Text += " " + btn.Text + " ";
         }
@@ -83,7 +80,6 @@ namespace CalculadoraNet
             {
                 if (resultadoMostrado)
                 {
-                    // Si el resultado está mostrado, comenzar una nueva operación
                     richTextBox1.Text = "";
                     resultadoMostrado = false;
                 }
@@ -117,7 +113,7 @@ namespace CalculadoraNet
                 resultadoMostrado = true;
             }
         }
-
+        
         private void RichTextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Lógica para manejar el evento KeyPress en el RichTextBox
@@ -133,14 +129,23 @@ namespace CalculadoraNet
             // Lógica para manejar el evento KeyPress en el formulario
             if (!char.IsControl(e.KeyChar))
             {
-                HandleKeyPress(e.KeyChar);
-                e.Handled = true; // Suprimir el carácter original
+                if (e.KeyChar == (char)Keys.Enter)
+                {
+                    HandleEnterKeyPress();
+                }
+                else
+                {
+                    HandleKeyPress(e.KeyChar);
+                }
+                // Suprimir el carácter original (excepto cuando es Enter)
+                e.Handled = true;
             }
         }
 
         private void HandleKeyPress(char keyPressed)
         {
             // Lógica para manejar el evento KeyPress en el formulario
+
             if (char.IsDigit(keyPressed))
             {
                 HandleDigitKeyPress(keyPressed);
@@ -191,8 +196,27 @@ namespace CalculadoraNet
 
         private void HandleEnterKeyPress()
         {
-            // Al presionar Enter, realizar la acción del botón igual
-            BtnEqual.PerformClick();
+            try
+            {
+                // Obtener la expresión desde richTextBox1.Text
+                string expression = richTextBox1.Text;
+
+                // Procesar la expresión con el servicio de la calculadora
+                string result = calculatorService.ProcessExpression(expression);
+
+                // Mostrar el resultado en richTextBox1.Text
+                richTextBox1.Text = result;
+
+                // Actualizar el estado de resultadoMostrado
+                resultadoMostrado = true;
+            }
+            catch (Exception ex)
+            {
+                // Manejar cualquier excepción que pueda ocurrir durante el cálculo
+                richTextBox1.Text = "Error";
+                calculatorService.ResetAnsValue();
+                resultadoMostrado = true;
+            }
         }
 
         private bool IsOperatorKey(char key)
