@@ -6,6 +6,9 @@ namespace CalculadoraNet
     public partial class Form1 : Form
     {
         private double ansValue = double.NaN;
+        private bool resultadoMostrado = false;
+        private bool ansUtilizado = false;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,8 +34,9 @@ namespace CalculadoraNet
             BtnMult.Click += BtnOperator_Click;
             BtnDiv.Click += BtnOperator_Click;
 
+
             // Asignar evento KeyPress al TextBox
-            textBox1.KeyPress += TextBox1_KeyPress;
+            richTextBox1.KeyPress += RichTextBox1_KeyPress;
 
             //Asignar otros botones
             BtnAns.Click += BtnAns_Click;
@@ -40,62 +44,84 @@ namespace CalculadoraNet
         private void BtnC_Click(object sender, EventArgs e)
         {
             // Lógica para el botón C (borrar)
-            textBox1.Text = "";
+            richTextBox1.Text = "";
+            ansValue = double.NaN;
+        }
+
+        private void BtnNumber_Click(object sender, EventArgs e)
+        {
+            // Lógica para los botones de números
+            // Por ejemplo, agregar el número correspondiente al richTextBox1.Text
+            if (resultadoMostrado)
+            {
+                // Si el resultado está mostrado, comenzar una nueva operación
+                richTextBox1.Text = "";
+                resultadoMostrado = false;
+            }
+
+            Button btn = (Button)sender;
+            richTextBox1.Text += btn.Text;
+        }
+
+        private void BtnOperator_Click(object sender, EventArgs e)
+        {
+            // Lógica para los botones de operadores (+, -, *, /)
+            Button btn = (Button)sender;
+            richTextBox1.Text += " " + btn.Text + " ";
         }
         private void BtnAns_Click(object sender, EventArgs e)
         {
             if (!double.IsNaN(ansValue))
             {
-                // Si ansValue tiene un valor válido, mostrarlo en textBox1.Text
-                textBox1.Text += "ANS";
+                if (resultadoMostrado)
+                {
+                    // Si el resultado está mostrado, comenzar una nueva operación
+                    richTextBox1.Text = "";
+                    resultadoMostrado = false;
+                }
+
+                richTextBox1.Text += "ANS";
+                ansUtilizado = true;
             }
         }
-        private void BtnNumber_Click(object sender, EventArgs e)
-        {
-            // Lógica para los botones de números
-            // Por ejemplo, agregar el número correspondiente al textBox1.Text
-            Button btn = (Button)sender;
-            textBox1.Text += btn.Text;
-        }
-        private void BtnOperator_Click(object sender, EventArgs e)
-        {
-            // Lógica para los botones de operadores (+, -, *, /)
-            Button btn = (Button)sender;
-            textBox1.Text += " " + btn.Text + " ";
-        }
-        
         private void BtnEqual_Click(object sender, EventArgs e)
         {
             try
             {
-                // Obtener la expresión desde textBox1.Text
-                string expression = textBox1.Text;
+                // Obtener la expresión desde richTextBox1.Text
+                string expression = richTextBox1.Text;
 
-                // Reemplazar "ANS" con el valor de ansValue en la expresión
+                // Reemplazar "ANS" con el valor almacenado
                 expression = expression.Replace("ANS", ansValue.ToString());
 
                 // Utilizar la clase DataTable para evaluar la expresión matemática
                 DataTable table = new DataTable();
                 var result = table.Compute(expression, "");
 
-                // Mostrar el resultado en textBox1.Text
-                textBox1.Text = result.ToString();
+                // Mostrar el resultado en richTextBox1.Text
+                richTextBox1.Text = $"{expression}\r\n\r\nResultado: {result}";
 
                 // Actualizar el valor de ansValue
                 if (double.TryParse(result.ToString(), out double parsedResult))
                 {
                     ansValue = parsedResult;
                 }
+
+                // Actualizar el estado de resultadoMostrado
+                resultadoMostrado = true;
             }
             catch (Exception ex)
             {
                 // Manejar cualquier excepción que pueda ocurrir durante el cálculo
-                textBox1.Text = "Error";
+                richTextBox1.Text = "Error";
+                ansValue = double.NaN;
+                resultadoMostrado = true;
             }
         }
-        private void TextBox1_KeyPress(object sender, KeyPressEventArgs e)
+
+        private void RichTextBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Lógica para manejar el evento KeyPress en el TextBox
+            // Lógica para manejar el evento KeyPress en el RichTextBox
             // Puedes validar el carácter ingresado y decidir si permitirlo o no
             // Permitir números y el carácter de punto decimal
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
@@ -103,11 +129,12 @@ namespace CalculadoraNet
                 e.Handled = true; // Suprimir el carácter
             }
             // Permitir solo un punto decimal
-            if (e.KeyChar == '.' && textBox1.Text.IndexOf('.') > -1)
+            if (e.KeyChar == '.' && richTextBox1.Text.IndexOf('.') > -1)
             {
                 e.Handled = true; // Suprimir el carácter
             }
         }
-       
+
+
     }
 }

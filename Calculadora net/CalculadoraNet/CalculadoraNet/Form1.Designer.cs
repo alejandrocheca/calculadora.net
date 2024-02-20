@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
             BtnEqual = new Button();
             BtnAns = new Button();
             BtnC = new Button();
@@ -73,15 +72,8 @@
             BtnRaizGeneral = new Button();
             BtnRaizCubica = new Button();
             BtnRaizCuadrada = new Button();
+            richTextBox1 = new RichTextBox();
             SuspendLayout();
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(12, 12);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(776, 101);
-            textBox1.TabIndex = 0;
             // 
             // BtnEqual
             // 
@@ -486,11 +478,20 @@
             BtnRaizCuadrada.Text = "√";
             BtnRaizCuadrada.UseVisualStyleBackColor = true;
             // 
+            // richTextBox1
+            // 
+            richTextBox1.Location = new Point(12, 12);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.Size = new Size(776, 101);
+            richTextBox1.TabIndex = 57;
+            richTextBox1.Text = "";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(richTextBox1);
             Controls.Add(button2);
             Controls.Add(BtnSinNegativo);
             Controls.Add(BtnCosNegativo);
@@ -535,16 +536,12 @@
             Controls.Add(BtnC);
             Controls.Add(BtnAns);
             Controls.Add(BtnEqual);
-            Controls.Add(textBox1);
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private TextBox textBox1;
         private Button BtnEqual;
         private Button BtnAns;
         private Button BtnC;
@@ -589,5 +586,6 @@
         private Button BtnRaizGeneral;
         private Button BtnRaizCubica;
         private Button BtnRaizCuadrada;
+        private RichTextBox richTextBox1;
     }
 }
