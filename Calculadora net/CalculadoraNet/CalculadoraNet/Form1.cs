@@ -1,17 +1,21 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
+
 namespace CalculadoraNet
 {
     public partial class Form1 : Form
     {
-        private double ansValue = double.NaN;
+        private readonly CalculatorService calculatorService;
         private bool resultadoMostrado = false;
         private bool ansUtilizado = false;
 
         public Form1()
         {
             InitializeComponent();
+
+            // Inicializar el servicio de la calculadora
+            calculatorService = new CalculatorService();
 
             // Asignar eventos a los botones
             BtnEqual.Click += BtnEqual_Click;
@@ -36,18 +40,19 @@ namespace CalculadoraNet
             BtnPar1.Click += BtnOperator_Click;
             BtnPar2.Click += BtnOperator_Click;
 
+            // Asignar evento KeyPress al TextBox y al formulario
+            //richTextBox1.KeyPress += RichTextBox1_KeyPress;
+            KeyPress += Form1_KeyPress;
 
-            // Asignar evento KeyPress al TextBox
-            richTextBox1.KeyPress += RichTextBox1_KeyPress;
-
-            //Asignar otros botones
+            // Asignar otros botones
             BtnAns.Click += BtnAns_Click;
         }
+
         private void BtnC_Click(object sender, EventArgs e)
         {
             // Lógica para el botón C (borrar)
             richTextBox1.Text = "";
-            ansValue = double.NaN;
+            calculatorService.ResetAnsValue();
         }
 
         private void BtnNumber_Click(object sender, EventArgs e)
@@ -71,9 +76,10 @@ namespace CalculadoraNet
             Button btn = (Button)sender;
             richTextBox1.Text += " " + btn.Text + " ";
         }
+
         private void BtnAns_Click(object sender, EventArgs e)
         {
-            if (!double.IsNaN(ansValue))
+            if (!double.IsNaN(calculatorService.AnsValue))
             {
                 if (resultadoMostrado)
                 {
@@ -86,6 +92,7 @@ namespace CalculadoraNet
                 ansUtilizado = true;
             }
         }
+
         private void BtnEqual_Click(object sender, EventArgs e)
         {
             try
@@ -93,21 +100,11 @@ namespace CalculadoraNet
                 // Obtener la expresión desde richTextBox1.Text
                 string expression = richTextBox1.Text;
 
-                // Reemplazar "ANS" con el valor almacenado
-                expression = expression.Replace("ANS", ansValue.ToString());
-
-                // Utilizar la clase DataTable para evaluar la expresión matemática
-                DataTable table = new DataTable();
-                var result = table.Compute(expression, "");
+                // Procesar la expresión con el servicio de la calculadora
+                string result = calculatorService.ProcessExpression(expression);
 
                 // Mostrar el resultado en richTextBox1.Text
-                richTextBox1.Text = $"{expression}\r\n\r\nResultado: {result}";
-
-                // Actualizar el valor de ansValue
-                if (double.TryParse(result.ToString(), out double parsedResult))
-                {
-                    ansValue = parsedResult;
-                }
+                richTextBox1.Text = result;
 
                 // Actualizar el estado de resultadoMostrado
                 resultadoMostrado = true;
@@ -116,7 +113,7 @@ namespace CalculadoraNet
             {
                 // Manejar cualquier excepción que pueda ocurrir durante el cálculo
                 richTextBox1.Text = "Error";
-                ansValue = double.NaN;
+                calculatorService.ResetAnsValue();
                 resultadoMostrado = true;
             }
         }
@@ -125,27 +122,110 @@ namespace CalculadoraNet
         {
             // Lógica para manejar el evento KeyPress en el RichTextBox
             // Puedes validar el carácter ingresado y decidir si permitirlo o no
-            // Permitir números y el carácter de punto decimal
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            if (!char.IsControl(e.KeyChar))
             {
-                e.Handled = true; // Suprimir el carácter
-            }
-            // Permitir solo un punto decimal
-            if (e.KeyChar == '.' && richTextBox1.Text.IndexOf('.') > -1)
-            {
-                e.Handled = true; // Suprimir el carácter
+                HandleKeyPress(e.KeyChar);
             }
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
             // Lógica para manejar el evento KeyPress en el formulario
-            // Puedes asignar acciones a teclas específicas si lo deseas
-            // En este ejemplo, permitir que Enter actúe como el botón de igual
-            if (e.KeyChar == (char)Keys.Enter)
+            if (!char.IsControl(e.KeyChar))
             {
-                BtnEqual.PerformClick();
+                HandleKeyPress(e.KeyChar);
+                e.Handled = true; // Suprimir el carácter original
             }
+        }
+
+        private void HandleKeyPress(char keyPressed)
+        {
+            // Lógica para manejar el evento KeyPress en el formulario
+            if (char.IsDigit(keyPressed))
+            {
+                HandleDigitKeyPress(keyPressed);
+            }
+            else if (keyPressed == '.' && richTextBox1.Text.IndexOf('.') == -1)
+            {
+                HandleDecimalKeyPress(keyPressed);
+            }
+            else if (keyPressed == (char)Keys.Back && richTextBox1.Text.Length > 0)
+            {
+                HandleBackspaceKeyPress();
+            }
+            else if (keyPressed == (char)Keys.Enter)
+            {
+                HandleEnterKeyPress();
+            }
+            else if (IsOperatorKey(keyPressed))
+            {
+                HandleOperatorKeyPress(keyPressed);
+            }
+            else if (IsParenthesisKey(keyPressed))
+            {
+                HandleParenthesisKeyPress(keyPressed);
+            }
+            else if (IsTrigonometricFunctionKey(keyPressed))
+            {
+                HandleTrigonometricFunctionKeyPress(keyPressed);
+            }
+        }
+
+        private void HandleDigitKeyPress(char digit)
+        {
+            // Si es un dígito, agregar al richTextBox1.Text
+            richTextBox1.Text += digit;
+        }
+
+        private void HandleDecimalKeyPress(char dot)
+        {
+            // Permitir solo un punto decimal
+            richTextBox1.Text += dot;
+        }
+
+        private void HandleBackspaceKeyPress()
+        {
+            // Permitir retroceder para borrar
+            richTextBox1.Text = richTextBox1.Text.Substring(0, richTextBox1.Text.Length - 1);
+        }
+
+        private void HandleEnterKeyPress()
+        {
+            // Al presionar Enter, realizar la acción del botón igual
+            BtnEqual.PerformClick();
+        }
+
+        private bool IsOperatorKey(char key)
+        {
+            return key == '+' || key == '-' || key == '*' || key == '/';
+        }
+
+        private void HandleOperatorKeyPress(char operatorKey)
+        {
+            // Agregar operadores al richTextBox1.Text
+            richTextBox1.Text += " " + operatorKey + " ";
+        }
+
+        private bool IsParenthesisKey(char key)
+        {
+            return key == '(' || key == ')';
+        }
+
+        private void HandleParenthesisKeyPress(char parenthesis)
+        {
+            // Agregar paréntesis al richTextBox1.Text
+            richTextBox1.Text += parenthesis;
+        }
+
+        private bool IsTrigonometricFunctionKey(char key)
+        {
+            return key == 's' || key == 'c' || key == 't';
+        }
+
+        private void HandleTrigonometricFunctionKeyPress(char functionKey)
+        {
+            // Ejemplo: Teclas s, c, t para funciones trigonométricas
+            richTextBox1.Text += functionKey;
         }
     }
 }
