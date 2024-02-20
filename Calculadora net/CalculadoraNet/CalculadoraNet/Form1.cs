@@ -33,6 +33,8 @@ namespace CalculadoraNet
             BrnMenos.Click += BtnOperator_Click;
             BtnMult.Click += BtnOperator_Click;
             BtnDiv.Click += BtnOperator_Click;
+            BtnPar1.Click += BtnOperator_Click;
+            BtnPar2.Click += BtnOperator_Click;
 
 
             // Asignar evento KeyPress al TextBox
@@ -135,6 +137,15 @@ namespace CalculadoraNet
             }
         }
 
-
+        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Lógica para manejar el evento KeyPress en el formulario
+            // Puedes asignar acciones a teclas específicas si lo deseas
+            // En este ejemplo, permitir que Enter actúe como el botón de igual
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                BtnEqual.PerformClick();
+            }
+        }
     }
 }
